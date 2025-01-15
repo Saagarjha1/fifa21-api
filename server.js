@@ -10,7 +10,7 @@ const port = 5000;
 app.use(cors());
 
 // Path to your CSV file (update this with the correct file path)
-const csvFilePath = 'C:/Users/sagar/Downloads/archive (3)/fifa21_male2.csv'; // Local file path
+const csvFilePath = './fifa21_male2.csv'; // Local file path
 
 // Parse FIFA data from CSV file
 let fifaData = [];
