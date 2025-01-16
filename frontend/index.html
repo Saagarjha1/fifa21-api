@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="FIFA Player Stats with ZKP" />
+    <meta property="og:description" content="Securely verify FIFA player stats with Zero-Knowledge Proof!" />
+    <meta property="og:image" content="https://via.placeholder.com/300" />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <title>FIFA Player Stats (ZKP)</title>
+    <!-- Load snarkjs library -->
+    <script src="https://cdn.jsdelivr.net/npm/snarkjs@latest"></script>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff; /* White background */
+            color: #333; /* Black text */
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff4b5c; /* Red color for the heading */
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            color: white;
+            background-color: #ff4b5c; /* Red button */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c13446; /* Darker red on hover */
+        }
+
+        .stats-container {
+            margin-top: 20px;
+        }
+
+        .stats-container h2 {
+            color: #ff4b5c; /* Red color for stats heading */
+        }
+
+        .error {
+            color: red;
+        }
+
+        /* Card Layout */
+        .card {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #ff4b5c; /* Red background */
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar nav ul li {
+            margin: 0 20px;
+        }
+
+        .navbar nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .navbar nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #ff4b5c; /* Red color */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>FIFA Player Stats with ZKP</h1>
+    <p>Enter the name of your favorite FIFA player to securely verify their stats!</p>
+    <input type="text" id="playerName" placeholder="Enter player name (e.g., L. Messi)" />
+    <button onclick="zkFetch()">Fetch Stats with ZKP</button>
+
+    <div class="stats-container" id="statsContainer"></div>
+
+    <script>
+        /**
+         * Simulated Zero-Knowledge Proof Verification
+         * @param {Object} playerData - Player data containing OVA and other stats.
+         * @param {number} threshold - The threshold for OVA comparison.
+         * @returns {Promise<boolean>} - Returns true if verification passes, otherwise false.
+         */
+        async function zkVerify(playerData, threshold) {
+            try {
+                // Parse OVA as an integer
+                const ova = parseInt(playerData.OVA);
+
+                // Use snarkjs to generate a proof
+                const proof = await snarkjs.groth16.fullProve(
+                    { OVA: ova, threshold: threshold },
+                    'circuit.wasm', // ZKP circuit
+                    'circuit_final.zkey' // ZKP keys
+                );
+
+                // Verify the proof
+                const isValid = await snarkjs.groth16.verify(
+                    'verification_key.json', // Verification key
+                    proof.publicSignals,
+                    proof.proof
+                );
+
+                return isValid && ova > threshold;
+            } catch (error) {
+                console.error('ZKP Verification Error:', error);
+                return false;
+            }
+        }
+
+        /**
+         * Fetch and verify player stats using ZKP.
+         */
+        async function zkFetch() {
+            const playerName = document.getElementById('playerName').value.trim();
+            const statsContainer = document.getElementById('statsContainer');
+
+            if (!playerName) {
+                statsContainer.innerHTML = '<p class="error">Please enter a player name!</p>';
+                return;
+            }
+
+            statsContainer.innerHTML = '<p>Fetching stats securely...</p>';
+
+            try {
+                // Fetch player stats from the API
+                const response = await fetch(`https://fifa21-api.onrender.com/players/${encodeURIComponent(playerName)}`);
+                if (!response.ok) {
+                    throw new Error('Player not found or API error');
+                }
+
+                const data = await response.json();
+                const player = data[0];
+
+                // Define a threshold for OVA (e.g., 80)
+                const threshold = 80;
+
+                // Perform ZKP verification
+                const isOVAAboveThreshold = await zkVerify(player, threshold);
+
+                // Update stats container with player details and verification status
+                statsContainer.innerHTML = `
+                    <h2>${player.Name}</h2>
+                    <p><strong>Overall Rating (OVA):</strong> ${player.OVA}</p>
+                    <p><strong>Club:</strong> ${player.Club}</p>
+                    <p><strong>Nationality:</strong> ${player.Nationality}</p>
+                    <p><strong>Position:</strong> ${player.Position}</p>
+                    <p><strong>ZKP Verification Status:</strong> ${
+                        isOVAAboveThreshold
+                            ? 'Verified! Player rating is above threshold.'
+                            : 'Player rating is below threshold.'
+                    }</p>
+                `;
+            } catch (error) {
+                statsContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

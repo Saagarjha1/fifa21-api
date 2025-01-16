@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA Player Stats Project Report</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff; /* White background */
+            color: #333; /* Black text */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #ff4b5c; /* Red color for the heading */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #ff4b5c; /* Red color */
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar nav ul li {
+            margin: 0 20px;
+        }
+
+        .navbar nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .navbar nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Card Layout */
+        .card {
+            background-color: white; /* White background for cards */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #ff4b5c; /* Red background */
+            color: white;
+            font-size: 1.3em;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header i {
+            font-size: 1.8em;
+            margin-right: 15px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Button Styling */
+        .btn {
+            background-color: #ff4b5c; /* Red color */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1em;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #c13446; /* Darker red on hover */
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #ff4b5c; /* Red color */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .card {
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <nav>
+            <ul>
+                <li><a href="#project-overview">Project Overview</a></li>
+                <li><a href="#key-features">Key Features</a></li>
+                <li><a href="#system-architecture">System Architecture</a></li>
+                <li><a href="#zkp-simulation">ZKP Simulation</a></li>
+                <li><a href="#future-enhancements">Future Enhancements</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#demo">Demo</a></li> <!-- Demo Link -->
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>FIFA Player Stats with Zero-Knowledge Proof Integration</h1>
+
+        <!-- Project Overview Section -->
+        <section id="project-overview">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-cogs"></i><span>Project Overview</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                      This project is a <strong>full-stack web application</strong> that allows users to fetch <strong>FIFA player stats</strong> and uses <strong>Zero-Knowledge Proof (ZKP)</strong> to verify specific player stats without revealing sensitive information. The goal is to demonstrate how privacy and cryptographic verification can work together to provide a more secure experience in gaming.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features Section -->
+        <section id="key-features">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-list-ul"></i><span>Key Features</span>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Player Stats Fetching:</strong> Users can search for a player by name and fetch stats (OVA, POT, Position, etc.).</li>
+                        <li><strong>Zero-Knowledge Proof Integration:</strong> A **ZKP** mechanism is used to verify whether a player's <strong>Overall Rating (OVA)</strong> exceeds a threshold, without revealing the actual rating.</li>
+                        <li><strong>Error Handling:</strong> The app handles errors gracefully, such as invalid player names or API issues.</li>
+                        <li><strong>Real-Time Data Fetching:</strong> The frontend uses JavaScript to fetch data from the backend API dynamically.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section id="demo">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-video-camera"></i><span>Project Demo</span>
+                </div>
+                <div class="card-body">
+                    <p>Here is a live demonstration of the project:</p>
+                    <!-- You can replace the link below with your demo video or live project link -->
+                    <a href="./index.html" class="btn" target="_blank">Open Demo</a>
+                    <p>Alternatively, you can view the demo video:</p>
+                    <iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/wSlsfdVJtYA" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+</iframe>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture Section -->
+        <section id="system-architecture">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-sitemap"></i><span>System Architecture</span>
+                </div>
+                <div class="card-body">
+                    <p>The project has a <strong>client-server architecture</strong> consisting of two main components:</p>
+                    <ul>
+                        <li><strong>Frontend (Client):</strong> Built using <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong>. Allows users to input a player's name and interact with the stats.</li>
+                        <li><strong>Backend (Server):</strong> <strong>Node.js</strong> with <strong>Express.js</strong> serves the API routes to fetch player data from a <strong>CSV file</strong>. Handles player search and <strong>ZKP</strong> functionality.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zero-Knowledge Proof Simulation Section -->
+        <section id="zkp-simulation">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-lock"></i><span>Zero-Knowledge Proof (ZKP) Simulation</span>
+                </div>
+                <div class="card-body">
+                    <p>
+                      The <strong>Zero-Knowledge Proof (ZKP)</strong> in this project is implemented as a simple simulation. It verifies whether a player's <strong>Overall Rating (OVA)</strong> is above a specified threshold (80) without revealing the actual rating. The <strong>ZKP</strong> validation process ensures that:
+                    </p>
+                    <ul>
+                        <li>The <strong>OVA</strong> is greater than the threshold.</li>
+                        <li>The <strong>OVA</strong> value is never exposed to the user directly.</li>
+                    </ul>
+                    <p>This simulation can be enhanced by integrating <strong>zkSNARKs</strong> or <strong>zkSTARKs</strong> to perform real-world cryptographic proof of player stats.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Enhancements Section -->
+        <section id="future-enhancements">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-arrow-up"></i><span>Future Enhancements</span>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Implement <strong>zkSNARKs</strong> or <strong>zkSTARKs</strong> for more robust <strong>privacy-preserving</strong> validation of player stats.</li>
+                        <li>Expand the project to handle more player stats and enable <strong>real-time updates</strong>.</li>
+                        <li>Integrate <strong>more game APIs</strong> (e.g., <strong>FIFA Mobile</strong>, <strong>Fortnite</strong>, etc.) to fetch data for other games.</li>
+                        <li>Enhance the <strong>UI/UX</strong> by adding more interactive elements, such as player images or animated transitions.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-envelope"></i><span>Contact</span>
+                </div>
+                <div class="card-body">
+                    <p>If you have any questions or suggestions, feel free to reach out:</p>
+                    <p>Email: <strong>contact@fifastats.com</strong></p>
+                    <a href="mailto:contact@fifastats.com" class="btn">Get in Touch</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 FIFA Player Stats | Privacy-Preserving Gaming</p>
+    </footer>
+
+</body>
+
+</html>
