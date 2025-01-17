@@ -11,19 +11,25 @@
     <!-- Load snarkjs library -->
     <script src="https://cdn.jsdelivr.net/npm/snarkjs@latest"></script>
     <style>
-        /* General Body Styling */
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff; /* White background */
-            color: #333; /* Black text */
+            background-color: #ffffff;
+            color: #333;
             text-align: center;
             padding: 20px;
         }
 
         h1 {
-            color: #ff4b5c; /* Red color for the heading */
+            color: #ff4b5c;
             font-weight: 700;
             margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #555;
         }
 
         input[type="text"] {
@@ -37,14 +43,14 @@
         button {
             padding: 10px 20px;
             color: white;
-            background-color: #ff4b5c; /* Red button */
+            background-color: #ff4b5c;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #c13446; /* Darker red on hover */
+            background-color: #c13446;
         }
 
         .stats-container {
@@ -52,110 +58,38 @@
         }
 
         .stats-container h2 {
-            color: #ff4b5c; /* Red color for stats heading */
+            color: #ff4b5c;
         }
 
         .error {
             color: red;
-        }
-
-        /* Card Layout */
-        .card {
-            background-color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            padding: 20px;
-            color: #333;
-        }
-
-        /* Navbar */
-        .navbar {
-            background-color: #ff4b5c; /* Red background */
-            padding: 15px 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-        }
-
-        .navbar nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar nav ul li {
-            margin: 0 20px;
-        }
-
-        .navbar nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-
-        .navbar nav ul li a:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer Styling */
-        footer {
-            background-color: #ff4b5c; /* Red color */
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
         }
     </style>
 </head>
 <body>
     <h1>FIFA Player Stats with ZKP</h1>
     <p>Enter the name of your favorite FIFA player to securely verify their stats!</p>
+
+    <label for="playerName">Player Name:</label>
     <input type="text" id="playerName" placeholder="Enter player name (e.g., L. Messi)" />
+
     <button onclick="zkFetch()">Fetch Stats with ZKP</button>
 
     <div class="stats-container" id="statsContainer"></div>
 
     <script>
         /**
-         * Simulated Zero-Knowledge Proof Verification
-         * @param {Object} playerData - Player data containing OVA and other stats.
-         * @param {number} threshold - The threshold for OVA comparison.
-         * @returns {Promise<boolean>} - Returns true if verification passes, otherwise false.
+         * Temporary logic for threshold verification.
+         * Replace with ZKP verification after testing.
          */
         async function zkVerify(playerData, threshold) {
-            try {
-                // Parse OVA as an integer
-                const ova = parseInt(playerData.OVA);
-
-                // Use snarkjs to generate a proof
-                const proof = await snarkjs.groth16.fullProve(
-                    { OVA: ova, threshold: threshold },
-                    'circuit.wasm', // ZKP circuit
-                    'circuit_final.zkey' // ZKP keys
-                );
-
-                // Verify the proof
-                const isValid = await snarkjs.groth16.verify(
-                    'verification_key.json', // Verification key
-                    proof.publicSignals,
-                    proof.proof
-                );
-
-                return isValid && ova > threshold;
-            } catch (error) {
-                console.error('ZKP Verification Error:', error);
-                return false;
-            }
+            const ova = parseInt(playerData.OVA, 10);
+            console.log('Player OVA:', ova, 'Threshold:', threshold);
+            return ova > threshold; // Simple logic for debugging
         }
 
         /**
-         * Fetch and verify player stats using ZKP.
+         * Fetch and verify player stats using ZKP or fallback logic.
          */
         async function zkFetch() {
             const playerName = document.getElementById('playerName').value.trim();
